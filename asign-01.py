@@ -16,4 +16,3 @@ for movie_id in movie_ids:
   
   print(f"\n{title} - {vote}")
   print(f"\n{overview}\n")
-
