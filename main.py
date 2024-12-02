@@ -1,3 +1,4 @@
+'''
 import requests
 
 movie_ids = [
@@ -16,10 +17,9 @@ for movie_id in movie_ids:
   
   print(f"\n{title} - {vote}")
   print(f"\n{overview}\n")
-  
+'''  
 
 
-'''
 import requests
 from bs4 import BeautifulSoup
 
@@ -57,4 +57,3 @@ for x in range(total_pages):
   scrape_page(url)
 
 print(len(all_jobs))
-'''
