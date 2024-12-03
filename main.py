@@ -35,9 +35,3 @@ for x in range(total_pages):
   scrape_page(url)
 
 print(len(all_jobs))
-
-
-
-
-
-
