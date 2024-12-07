@@ -1,37 +1,8 @@
-import requests
-from bs4 import BeautifulSoup
+from extractor.indeed import extract_indeed_jobs
+from extractor.wwr import extract_wwr_jobs
 
-all_jobs = []
+keyword = input("검색어를 입력하세요: ")
+indeed = extract_indeed_jobs(keyword)
+wwr = extract_wwr_jobs(keyword)
+job = indeed + wwr
 
-def scrape_page(url):
-  response = requests.get(url)
-  soup = BeautifulSoup(response.content, "html.parser")
-
-  jobs = soup.find("section", class_="jobs").find_all("li")[1:-1]
-
-  for job in jobs:
-    title = job.find("span", class_="title").text
-    company, position, *region = job.find_all("span", class_="company")
-    region = "No Region" if not len(region) else region[0].text
-    job_url = job.find("a")["href"]
-    job_data = {
-      "title": title,
-      "company": company.text,
-      "position": position.text,
-      "region": region,
-      "url": f"https://weworkremotely.com{job_url}"
-    }
-    all_jobs.append(job_data)
-
-def get_pages(url):
-  response = requests.get(url)
-  soup = BeautifulSoup(response.content, "html.parser")
-  return len(soup.find("div", class_="pagination").find_all("span", class_="page"))
-
-total_pages = get_pages("https://weworkremotely.com/remote-full-time-jobs?page=1")
-
-for x in range(total_pages):
-  url = f"https://weworkremotely.com/remote-full-time-jobs?page={x+1}"
-  scrape_page(url)
-
-print(len(all_jobs))
